@@ -1,13 +1,12 @@
 'use client';
-import { useEffect, useState } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { Suspense, useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import api from '@/lib/api';
 import { CheckCircle, XCircle, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 
-export default function VerifyPaymentPage() {
+function VerifyPaymentContent() {
   const searchParams = useSearchParams();
-  const router = useRouter();
   const reference = searchParams.get('reference');
   const [status, setStatus] = useState<'loading' | 'success' | 'failed'>('loading');
   const [message, setMessage] = useState('');
@@ -67,5 +66,17 @@ export default function VerifyPaymentPage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function VerifyPaymentPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <Loader2 className="w-16 h-16 text-primary-500 animate-spin" />
+      </div>
+    }>
+      <VerifyPaymentContent />
+    </Suspense>
   );
 }
