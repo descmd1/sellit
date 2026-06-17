@@ -1,7 +1,7 @@
 import axios, { AxiosError } from 'axios';
 
 const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || 'https://sellit-6nyn.onrender.com/api',
+  baseURL: process.env.NEXT_PUBLIC_API_URL || 'https://sellit-1.onrender.com/api',
   withCredentials: true,
 });
 
