@@ -4,7 +4,6 @@ import './globals.css';
 import { AuthProvider } from '@/context/AuthContext';
 import { QueryProvider } from '@/components/QueryProvider';
 import { Toaster } from 'react-hot-toast';
-import Script from 'next/script';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -23,7 +22,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <Toaster position="top-right" toastOptions={{ duration: 4000 }} />
           </AuthProvider>
         </QueryProvider>
-        <Script src="https://js.paystack.co/v1/inline.js" strategy="afterInteractive" />
       </body>
     </html>
   );
