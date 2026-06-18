@@ -130,7 +130,7 @@ export default function ItemDetailPage() {
           {/* Buy button */}
           <div className="mt-6">
             {canBuy ? (
-              <PaystackButton itemId={item._id} totalAmount={item.totalAmount!} />
+              <PaystackButton itemId={item._id} />
             ) : !user ? (
               <a href="/login" className="w-full btn-primary py-3 flex items-center justify-center gap-2 text-base">
                 Login to Purchase
