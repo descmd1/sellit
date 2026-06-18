@@ -7,6 +7,10 @@ const PAYSTACK_SECRET = () => process.env.PAYSTACK_SECRET_KEY;
 
 exports.initializePayment = async (req, res) => {
   try {
+    if (!PAYSTACK_SECRET()) {
+      return res.status(500).json({ message: 'Payment service not configured' });
+    }
+
     const { itemId } = req.body;
     const item = await Item.findById(itemId).populate('seller');
 
@@ -16,6 +20,9 @@ exports.initializePayment = async (req, res) => {
     }
     if (item.seller._id.toString() === req.user._id.toString()) {
       return res.status(400).json({ message: 'You cannot buy your own item' });
+    }
+    if (!item.totalAmount || item.totalAmount <= 0) {
+      return res.status(400).json({ message: 'Item price has not been set by admin yet' });
     }
 
     const reference = `SELL_${Date.now()}_${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
@@ -57,7 +64,8 @@ exports.initializePayment = async (req, res) => {
       amount: item.totalAmount,
     });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    const message = error.response?.data?.message || error.message;
+    res.status(500).json({ message });
   }
 };
 
